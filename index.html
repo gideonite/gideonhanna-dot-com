@@ -1,1 +1,79 @@
-Hello world
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Wedding</title>
+    <link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f8f8f8;
+            font-family: 'Familjen Grotesk', sans-serif;
+            text-align: center;
+        }
+        img {
+            max-width: 80%;
+            max-height: 50vh;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            object-fit: contain;
+        }
+        .text {
+            margin-top: 2vh;
+            font-size: 2.5vh;
+            color: #333;
+            max-width: 80%;
+        }
+        .link-container {
+            margin-top: 2vh;
+        }
+        .link-container a {
+            display: inline-block;
+            font-size: 2vh;
+            text-decoration: none;
+            color: #0066cc;
+            font-weight: bold;
+            border: 2px solid #0066cc;
+            padding: 1vh 2vh;
+            border-radius: 5px;
+            background-color: white;
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+        }
+        .link-container a:hover {
+            background-color: #0066cc;
+            color: #fff;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <img src="gideon-hanna-2022.jpg" alt="Wedding Image">
+    <div class="text">
+        <p>
+            Our wedding will take place at the Picnic House in Prospect Park,
+            Brooklyn, New York on Saturday,&nbspJune&nbsp28,&nbsp2025 at 4:30&nbsppm. 
+        </p>
+        <p>
+            We’re planning activities for Thursday evening and Sunday. More
+            information to come! But feel free to <a
+            href="https://docs.google.com/forms/d/1yDh5Z4N7tGMBV4Us6eWZGzj7sA_ZoIBiypbLXtbUTo4/preview">RSVP
+            here</a>. In the meantime, we’ve gathered some recommendations for
+            places to stay.
+        </p>
+        <p>
+            If you have any questions, don’t hesitate to email us: <small><code>hanna.and.gideon@gmail.com</code></small>.
+        </p>
+    </div>
+    <div class="link-container">
+        <a href="accommodations">Accommodations</a>
+    </div>
+</body>
+</html>
