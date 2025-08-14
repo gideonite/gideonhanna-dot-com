@@ -1,0 +1,48 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Secret Link Builder (local only)</title>
+<body style="font:16px system-ui;max-width:700px;margin:40px auto">
+  <h1>Secret Link Builder</h1>
+  <p>Use locally. Enter your Proton Drive URL and a strong password. This will output salt / iv / ciphertext (base64).</p>
+  <label>Proton Drive URL<br><input id="url" style="width:100%"></label><br><br>
+  <label>Password (use a long, unique passphrase)<br><input id="pw" type="password" style="width:100%"></label><br><br>
+  <button id="go">Generate</button>
+  <pre id="out" style="white-space:pre-wrap;background:#f6f6f7;padding:12px;border-radius:8px"></pre>
+<script>
+const enc = new TextEncoder(), dec = new TextDecoder();
+async function deriveKey(password, salt, iterations=200000) {
+  const keyMaterial = await crypto.subtle.importKey(
+    "raw", enc.encode(password), "PBKDF2", false, ["deriveKey"]
+  );
+  return await crypto.subtle.deriveKey(
+    { name: "PBKDF2", salt, iterations, hash: "SHA-256" },
+    keyMaterial,
+    { name: "AES-GCM", length: 256 },
+    true,
+    ["encrypt","decrypt"]
+  );
+}
+function b64(bytes){ return btoa(String.fromCharCode(...new Uint8Array(bytes))); }
+document.getElementById('go').onclick = async () => {
+  const url = document.getElementById('url').value.trim();
+  const pw  = document.getElementById('pw').value;
+  if(!url || !pw){ alert("Enter URL and password"); return; }
+  const salt = crypto.getRandomValues(new Uint8Array(16));
+  const iv   = crypto.getRandomValues(new Uint8Array(12));
+  const key  = await deriveKey(pw, salt);
+  const ct   = await crypto.subtle.encrypt({name:"AES-GCM", iv}, key, enc.encode(url));
+  const out = {
+    iterations: 200000,
+    salt_b64: b64(salt),
+    iv_b64:   b64(iv),
+    ct_b64:   b64(ct),
+  };
+  document.getElementById('out').textContent =
+`// Paste these into your redirect page:
+const ITERATIONS = ${out.iterations};
+const SALT_B64 = "${out.salt_b64}";
+const IV_B64   = "${out.iv_b64}";
+const CT_B64   = "${out.ct_b64}";`;
+};
+</script>
+</body>

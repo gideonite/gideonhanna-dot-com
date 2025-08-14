@@ -1,0 +1,53 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Protected Link</title>
+<body style="font:16px system-ui;display:grid;place-items:center;height:100dvh;background:#0b0c10;color:#e8eaed">
+  <form id="form" style="background:#15171b;padding:24px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.35);min-width:320px">
+    <h1 style="margin:0 0 12px">Enter password</h1>
+    <p style="opacity:.8;margin:0 0 16px">Provide the passphrase to open photos.</p>
+    <input id="pw" type="password" placeholder="Passphrase" autocomplete="current-password"
+           style="width:100%;padding:10px 12px;border-radius:10px;border:1px solid #2b2f36;background:#0f1114;color:#e8eaed">
+    <div style="margin-top:12px;display:flex;gap:8px">
+      <button type="submit" style="padding:10px 12px;border-radius:10px;border:0">Open</button>
+      <span id="msg" aria-live="polite" style="align-self:center;opacity:.85"></span>
+    </div>
+  </form>
+
+<script>
+// === Paste your payload from builder.html here ===
+const ITERATIONS = 200000;
+const SALT_B64 = "G8krZ85h7WHi87iD2GRO5g==";
+const IV_B64   = "Cl/TMGuEzaQWMFXN";
+const CT_B64   = "Avjwg6v1BIOP4h4nsJ1IQ/cdnehRAQG2JxJ8RSdwzwlpNFocBy1+ghp5mG/p5KnuIOyN2xcOyhN3jgh/n4KMxhUU3as=";
+
+// ================================================
+
+const enc = new TextEncoder(), dec = new TextDecoder();
+function fromB64(s){ return Uint8Array.from(atob(s), c => c.charCodeAt(0)); }
+
+async function deriveKey(password, salt, iterations){
+  const keyMaterial = await crypto.subtle.importKey("raw", enc.encode(password), "PBKDF2", false, ["deriveKey"]);
+  return await crypto.subtle.deriveKey(
+    { name:"PBKDF2", salt, iterations, hash:"SHA-256" },
+    keyMaterial, { name:"AES-GCM", length:256 }, false, ["decrypt"]
+  );
+}
+
+async function openLink(pw){
+  const salt = fromB64(SALT_B64), iv = fromB64(IV_B64), ct = fromB64(CT_B64);
+  const key  = await deriveKey(pw, salt, ITERATIONS);
+  const urlBytes = await crypto.subtle.decrypt({name:"AES-GCM", iv}, key, ct);
+  const url = dec.decode(urlBytes);
+  if(!/^https?:\/\//i.test(url)) throw new Error("Bad URL");
+  location.replace(url);
+}
+
+const form = document.getElementById('form'), msg = document.getElementById('msg'), pw = document.getElementById('pw');
+form.addEventListener('submit', async (e) => {
+  e.preventDefault(); msg.textContent = "Checking…";
+  try { await openLink(pw.value); }
+  catch { msg.textContent = "Incorrect password."; pw.focus(); pw.select(); }
+});
+</script>
+</body>
