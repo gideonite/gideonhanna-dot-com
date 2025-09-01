@@ -37,8 +37,15 @@
             max-width: 80%;
             padding: 0 20%;
         }
-        .link-container {
+        .links-wrapper {
             margin-top: 2vh;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2vh;
+        }
+        .link-container {
+            flex: 0 0 auto;
         }
         .link-container a {
             display: inline-block;
@@ -64,7 +71,7 @@
     <img src="gideon-hanna-2022.jpg" alt="Wedding Image">
     <div class="text">
         <p>
-            Our wedding will take place at the <a href="https://www.prospectpark.org/visit-the-park/weddings-and-special-events/picnic-house/">Picnic House in Prospect Park</a>,
+            Our wedding <s>will take</s> took place at the <a href="https://www.prospectpark.org/visit-the-park/weddings-and-special-events/picnic-house/">Picnic House in Prospect Park</a>,
             Brooklyn, New York on Saturday,&nbspJune&nbsp28,&nbsp2025 at 4:30&nbsppm&nbsp[<a
             href="https://maps.app.goo.gl/QZPwTrWiFrGgCeXa7">map</a>]. 
         </p>
@@ -77,32 +84,34 @@
             If you have any questions, don’t hesitate to email us: <small><code>hanna.and.gideon@gmail.com</code></small>.
         </p>
     </div>
-    <!-- <div class="link-container">
-        <a href="https://docs.google.com/forms/d/1yDh5Z4N7tGMBV4Us6eWZGzj7sA_ZoIBiypbLXtbUTo4/preview">RSVP</a>
-    </div> -->
-    <div class="link-container">
-        <a href="schedule.html">Schedule</a>
-    </div>
+    <div class="links-wrapper">
+        <!-- <div class="link-container">
+            <a href="https://docs.google.com/forms/d/1yDh5Z4N7tGMBV4Us6eWZGzj7sA_ZoIBiypbLXtbUTo4/preview">RSVP</a>
+        </div> -->
+        <div class="link-container">
+            <a href="schedule.html">Schedule</a>
+        </div>
 
-    <div class="link-container">
-        <a href="photos">Photos</a>
-    </div>
+        <div class="link-container">
+            <a href="photos">Photos</a>
+        </div>
 
-    <!-- <div class="link-container">
-        <a href="accommodations">Accommodations</a>
+        <!-- <div class="link-container">
+            <a href="accommodations">Accommodations</a>
+        </div>
+        <div class="link-container">
+            <a href="parking">Parking</a>
+        </div> -->
+        <!-- <div class="link-container">
+            <a href="./directions">Directions</a>
+        </div> -->
+        <div class="link-container">
+            <a href="./invite">Invite</a>
+        </div>
+        <!-- <div class="link-container">
+            <a href="https://www.zola.com/registry/hannaandgideon">Gift Registry</a>
+        </div> -->
     </div>
-    <div class="link-container">
-        <a href="parking">Parking</a>
-    </div> -->
-    <!-- <div class="link-container">
-        <a href="./directions">Directions</a>
-    </div> -->
-    <div class="link-container">
-        <a href="./invite">Invite</a>
-    </div>
-    <!-- <div class="link-container">
-        <a href="https://www.zola.com/registry/hannaandgideon">Gift Registry</a>
-    </div> -->
 
 </body>
 </html>
