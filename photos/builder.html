@@ -10,7 +10,8 @@
   <pre id="out" style="white-space:pre-wrap;background:#f6f6f7;padding:12px;border-radius:8px"></pre>
 <script>
 const enc = new TextEncoder(), dec = new TextDecoder();
-async function deriveKey(password, salt, iterations=200000) {
+const ITERATIONS = 2000000;
+async function deriveKey(password, salt, iterations=ITERATIONS) {
   const keyMaterial = await crypto.subtle.importKey(
     "raw", enc.encode(password), "PBKDF2", false, ["deriveKey"]
   );
@@ -32,7 +33,7 @@ document.getElementById('go').onclick = async () => {
   const key  = await deriveKey(pw, salt);
   const ct   = await crypto.subtle.encrypt({name:"AES-GCM", iv}, key, enc.encode(url));
   const out = {
-    iterations: 200000,
+    iterations: ITERATIONS,
     salt_b64: b64(salt),
     iv_b64:   b64(iv),
     ct_b64:   b64(ct),
